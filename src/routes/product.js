@@ -11,6 +11,7 @@ const {
   patchProduct,
   deleteProduct,
   getTotalProducts,
+  sortProduct,
 } = require("../controller/product");
 const { auth, management_page } = require("../middleware/auth");
 const {
@@ -22,6 +23,7 @@ const uploadImage = require("../middleware/multer");
 router.get("/", auth, getProductRedis, getAllProduct);
 router.get("/gettotalproducts", getTotalProducts);
 router.get("/search", auth, searchProduct);
+router.get("/sort", auth, sortProduct);
 router.get("/ordername", auth, getProductOrderName);
 router.get("/ordercategory", auth, getProductOrderCategory);
 router.get("/orderdate", auth, getProductOrderDate);
