@@ -270,20 +270,31 @@ module.exports = {
     }
   },
   postProduct: async (request, response) => {
-    if (!request.file) {
-      return helper.response(response, 400, "Image required");
-    }
     try {
+      if (!request.file) {
+        console.log("image");
+        return helper.response(response, 400, "Image required");
+      }
+      let { id_category, name, price, status } = request.body;
       const setData = {
-        id_category: request.body.id_category,
-        name: request.body.name,
-        image: request.file === undefined ? "no image" : request.file.filename,
-        price: request.body.price,
+        id_category: id_category,
+        name: name,
+        image: request.file.filename,
+        price: price,
         created: new Date(),
-        status: request.body.status,
+        status: status,
       };
+      if (id_category === "") {
+        return helper.response(response, 400, "Category required");
+      } else if (name === "") {
+        return helper.response(response, 400, "Name required");
+      } else if (price === "") {
+        return helper.response(response, 400, "Price required");
+      } else if (status === "") {
+        return helper.response(response, 400, "Status required");
+      }
       const result = await postProduct(setData);
-      return helper.response(response, 201, "Product Created", result);
+      return helper.response(response, 201, "Create Product success", result);
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }
@@ -327,14 +338,28 @@ module.exports = {
     try {
       const { id } = request.params;
       const id_product = await getProductById(id);
-      fs.unlink(`./uploads/${id_product[0].image}`, async (error) => {
-        if (error) {
-          throw error;
-        } else {
-          const result = await deleteProduct(id);
-          return helper.response(response, 201, "Product Deleted", result);
-        }
-      });
+      if (id_product[0].image === "default.png") {
+        const result = await deleteProduct(id);
+        return helper.response(response, 201, "Product Deleted", result);
+      } else if (
+        id_product[0].image === undefined ||
+        id_product[0].image === "" ||
+        id_product[0].image === null
+      ) {
+        const result = await deleteProduct(id);
+        return helper.response(response, 201, "Product Deleted", result);
+      } else {
+        fs.unlink(`./uploads/${id_product[0].image}`, async (error) => {
+          if (error) {
+            const result = await deleteProduct(id);
+            return helper.response(response, 201, "Product Deleted", result);
+            // throw error;
+          } else {
+            const result = await deleteProduct(id);
+            return helper.response(response, 201, "Product Deleted", result);
+          }
+        });
+      }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }
