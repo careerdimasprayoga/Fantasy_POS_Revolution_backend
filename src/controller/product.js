@@ -62,20 +62,6 @@ module.exports = {
     };
     if (sort === undefined || sort === "") {
       sort = "id";
-    } else if (sort === "category") {
-      sort = "id_category";
-    } else if (sort === "nameASC") {
-      sort = "name asc";
-    } else if (sort === "nameDESC") {
-      sort = "name desc";
-    } else if (sort === "oldest") {
-      sort = "created desc";
-    } else if (sort === "newest") {
-      sort = "created asc";
-    } else if (sort === "lowest") {
-      sort = "price asc";
-    } else if (sort === "highest") {
-      sort = "price desc";
     }
     try {
       const result = await getProduct(limit, offset, sort);
@@ -107,7 +93,26 @@ module.exports = {
   sortProduct: async (request, response) => {
     try {
       const { sort } = request.query;
-      const result = await sortProduct(sort);
+      let varSort = "";
+      if (sort === undefined || sort === "") {
+        varSort = "id";
+      } else if (sort === "category") {
+        varSort = "id_category";
+      } else if (sort === "nameASC") {
+        varSort = "name asc";
+      } else if (sort === "nameDESC") {
+        varSort = "name desc";
+      } else if (sort === "oldest") {
+        varSort = "created desc";
+      } else if (sort === "newest") {
+        varSort = "created asc";
+      } else if (sort === "lowest") {
+        varSort = "price asc";
+      } else if (sort === "highest") {
+        varSort = "price desc";
+      }
+      console.log(varSort);
+      const result = await sortProduct(varSort);
       return helper.response(response, 200, "Sort Product Success", result);
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);

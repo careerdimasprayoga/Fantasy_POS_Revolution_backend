@@ -33,7 +33,6 @@ module.exports = {
     });
   },
   sortProduct: (sort) => {
-    console.log(sort);
     return new Promise((resolve, reject) => {
       connection.query(
         `SELECT * FROM products ORDER BY ${sort}`,
