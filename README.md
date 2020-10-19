@@ -1,6 +1,6 @@
 <h1 align="center">ExpressJS - Fantasy POS Revolution RESTfull API</h1>
 
-Di era perkembangan teknologi yang sangat pesat saat ini, saya membuat aplikasi untuk mempermudah UMKM Dalam menjalankan bisnisnya di manapun dengan aplikasi ini, project ini dibuat menggunakan Node .js, Express.js dan beberapa teknologi Backend lainnya. [More about Express](https://en.wikipedia.org/wiki/Express.js)
+Di era perkembangan teknologi yang pesat saat ini, saya memiliki ide untuk membuat sebuah aplikasi Point Of Sales untuk mempermudah para UMKM Dalam menjalankan bisnisnya. Dengan Aplikasi ini maka para UMKM dapat mengakses penjualan dimanapun karena aplikasi ini berbasis Website.. [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
 
