@@ -1,6 +1,6 @@
-<h1 align="center">ExpressJS - Fantasy POS RESTfull API</h1>
+<h1 align="center">ExpressJS - Fantasy POS Revolution RESTfull API</h1>
 
-Make API for Frontend Fantasy POS for handle modul application Point Of Sales. [More about Express](https://en.wikipedia.org/wiki/Express.js)
+Di era perkembangan teknologi yang sangat pesat saat ini, saya membuat aplikasi untuk mempermudah UMKM Dalam menjalankan bisnisnya di manapun dengan aplikasi ini, project ini dibuat menggunakan Node .js, Express.js dan beberapa teknologi Backend lainnya. [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
 
@@ -20,48 +20,42 @@ Make API for Frontend Fantasy POS for handle modul application Point Of Sales. [
 2. Type `npm install`
 3. Make new file a called **.env**, set up first [here](#set-up-env-file)
 4. Turn on Web Server and MySQL can using Third-party tool like xampp, etc.
-5. Create a database with the name career_pos_fantasy, and Import file sql to **phpmyadmin**
+5. Create a database with the name #nama_database, and Import file sql to **phpmyadmin**
 6. Open Postman desktop application or Chrome web app extension that has installed before
-7. Choose HTTP Method and enter request url.(ex. localhost:3009/)
+7. Choose HTTP Method and enter request url.(ex. localhost:3000/)
 8. You can see all the end point [here](#end-point)
-
-## Regulation the app 
-
-1. You can import request_postman.json to postman.
-2. Be sure login first at Auth folder and copy token response to Authorization at edit collection, Authorization. Be sure Type at Authorization is Bearer Token.
-3. User status 0 (Non active), 1 (Active).
-4. User Role_id 1 (Cahier), 2 (Admin).
-5. You cant use the app if user status = 0 or non active.
-6. You can access all backend if using user role_id = 2 or admin.
 
 ## Set up .env file
 
 Open .env file on your favorite code editor, and copy paste this code below :
 
 ```
-DB_HOST=localhost // Database host
-DB_HOST=career_pos_fantasy // Database name
+DB_HOST=localhost // Database Host
+DB_USER=root // Database User
+DB_PASS= /// Database Password
+DB_BASE=career_pos_fantasy // Database Name
+
+PORT=3009 // PORT
+IP=127.0.0.1 // IP Localhost
 ```
 
 ## End Point
-you can see detail request on https://web.postman.co/collections/12330794-422e74a4-658d-4037-807e-1cb52e273581?version=latest&workspace=98e0826c-617c-4160-85f7-639a617d5bf3
 
 **1. GET**
 
-- `/product?limit=6&page=1`(Get all product with pagination and limit)
+- `/product`(Get all product)
 
 **2. POST**
 
 - `/product` (Post product)
-  - `{ "id_category": 2, "name": "Mie ayam", "image": [upload file] , "price" : 10000 , "status" : 0 | 0}`
+  - `{ "product_name": "Kipas", "category_id": 2, "product_harga": 50000 , "product_status" : 0 | 1}`
 
 **3. PATCH**
 
 - `/product/:id` (Update product by id)
 
-  - `{ "id_category": 2, "name": "Mie Pangsit", "image": [upload file] , "price" : 10000 , "status" : 0 | 0}`
+  - `{"product_name" : "Mouse", "category_id" : 1, "product_harga" : 100000, "product_status" : 1 | 0}`
 
 **4. DELETE**
 
 - `/product/:id` (Delete product by id)
-# week6-web3-intermediate_backend
