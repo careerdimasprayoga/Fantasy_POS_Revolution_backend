@@ -46,7 +46,7 @@ module.exports = {
   this_month: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT DATE(date) as dates, sum(subtotal) as subtotals FROM historys WHERE MONTH(date) = MONTH(NOW()) AND YEAR(date) = YEAR(NOW()) GROUP BY DATE(date)",
+        "SELECT DATE(historys.date) AS dates, subtotal AS subtotals FROM historys WHERE MONTH(historys.date) = MONTH(NOW()) AND YEAR(historys.date) = YEAR(NOW()) GROUP BY DATE(historys.date)",
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }
