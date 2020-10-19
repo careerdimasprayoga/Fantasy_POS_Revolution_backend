@@ -23,7 +23,7 @@ Di era perkembangan teknologi yang sangat pesat saat ini, saya membuat aplikasi 
 5. Create a database with the name #nama_database, and Import file sql to **phpmyadmin**
 6. Open Postman desktop application or Chrome web app extension that has installed before
 7. Choose HTTP Method and enter request url.(ex. localhost:3000/)
-8. You can see all the end point [here](#end-point)
+8. You can see all the end point [here](https://documenter.getpostman.com/view/12330794/TVRrWjtk)
 
 ## Set up .env file
 
@@ -41,21 +41,4 @@ IP=127.0.0.1 // IP Localhost
 
 ## End Point
 
-**1. GET**
-
-- `/product`(Get all product)
-
-**2. POST**
-
-- `/product` (Post product)
-  - `{ "product_name": "Kipas", "category_id": 2, "product_harga": 50000 , "product_status" : 0 | 1}`
-
-**3. PATCH**
-
-- `/product/:id` (Update product by id)
-
-  - `{"product_name" : "Mouse", "category_id" : 1, "product_harga" : 100000, "product_status" : 1 | 0}`
-
-**4. DELETE**
-
-- `/product/:id` (Delete product by id)
+**See Documentation Endpoint Here [here](https://documenter.getpostman.com/view/12330794/TVRrWjtk)**
