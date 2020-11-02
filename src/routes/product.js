@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
   getAllProduct,
+  getAllProductManage,
   searchProduct,
   getProductOrderName,
   getProductOrderCategory,
@@ -21,6 +22,8 @@ const {
 const uploadImage = require("../middleware/multer");
 
 router.get("/", auth, getProductRedis, getAllProduct);
+router.get("/product_manage", auth, getAllProductManage,
+);
 router.get("/gettotalproducts", getTotalProducts);
 router.get("/search", auth, searchProduct);
 router.get("/sort", auth, sortProduct);

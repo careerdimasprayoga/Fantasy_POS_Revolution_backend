@@ -1,11 +1,13 @@
 const {
   getProduct,
+  getProductManage,
   searchProduct,
   getProductOrderName,
   getProductOrderCategory,
   getProductOrderDate,
   getProductOrderPrice,
   getProductCount,
+  getProductCountManage,
   getProductById,
   postProduct,
   patchProduct,
@@ -70,6 +72,39 @@ module.exports = {
         3600,
         JSON.stringify(result)
       );
+      return helper.response(
+        response,
+        200,
+        "Get Product Success",
+        result,
+        pageInfo
+      );
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  getAllProductManage: async (request, response) => {
+    let { page, limit, sort } = request.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    let totalData = await getProductCountManage();
+    let totalPage = Math.ceil(totalData / limit);
+    let offset = page * limit - limit;
+    let prevLink = getPrevLink(page, request.query);
+    let nextLink = getNextLink(page, totalPage, request.query);
+    const pageInfo = {
+      page,
+      totalPage,
+      limit,
+      totalData,
+      prevLink: prevLink && `http://127.0.0.1:3009/product?${prevLink}`,
+      nextLink: nextLink && `http://127.0.0.1:3009/product?${nextLink}`,
+    };
+    if (sort === undefined || sort === "") {
+      sort = "id";
+    }
+    try {
+      const result = await getProductManage(limit, offset, sort);
       return helper.response(
         response,
         200,
@@ -283,18 +318,19 @@ module.exports = {
         price: price,
         created: new Date(),
         status: status,
-      };
-      if (id_category === "") {
+      }
+      console.log(setData)
+      if (id_category === "" || id_category === 0) {
         return helper.response(response, 400, "Category required");
       } else if (name === "") {
         return helper.response(response, 400, "Name required");
-      } else if (price === "") {
+      } else if (price === "" || price === 0 || price === undefined || price === 'undefined') {
         return helper.response(response, 400, "Price required");
-      } else if (status === "") {
+      } else if (status === "" || status === undefined || status === 'undefined') {
         return helper.response(response, 400, "Status required");
       }
       const result = await postProduct(setData);
-      return helper.response(response, 201, "Create Product success", result);
+      return helper.response(response, 201, "Add product success", result);
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }
@@ -304,7 +340,9 @@ module.exports = {
       const { id } = request.params;
       const { name, price, id_category, status } = request.body;
       const id_product = await getProductById(id);
-
+      console.log(id)
+      console.log("me")
+      console.log(id_product)
       const setData = {
         name: name,
         image: !request.file ? id_product[0].image : request.file.filename,
@@ -331,6 +369,7 @@ module.exports = {
         return helper.response(response, 404, "Product not found");
       }
     } catch (error) {
+      console.log(error)
       return helper.response(response, 400, "Bad Request", error);
     }
   },

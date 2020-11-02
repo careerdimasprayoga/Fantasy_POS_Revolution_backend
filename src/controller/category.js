@@ -27,10 +27,12 @@ module.exports = {
         }
     }, postCategory: async (request, response) => {
         try {
+            console.log(request.body)
             const setData = { name: request.body.name }
             const result = await postCategory(setData)
             return helper.response(response, 201, "Create Category Success", result);
         } catch (error) {
+            console.log(error)
             return helper.response(response, 400, "Bad Request", error);
         }
     }, patchCategory: async (request, response) => {
@@ -51,7 +53,7 @@ module.exports = {
         try {
             const { id } = request.params
             const result = await deleteCategory(id)
-            response.send("Delete Category Success")
+            return helper.response(response, 200, "Delete Category Success", result);
         } catch (error) {
             return helper.response(response, 400, "Bad Request", error);
         }

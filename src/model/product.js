@@ -14,6 +14,17 @@ module.exports = {
   getProduct: (limit, offset, sort) => {
     return new Promise((resolve, reject) => {
       connection.query(
+        `SELECT products.id as id, categorys.name as category_name, categorys.id as category_id, products.name as name, products.image as image, products.price as price, products.created as created, products.updated, products.status FROM products INNER JOIN categorys on products.id_category = categorys.id WHERE products.status = 1 ORDER BY ${sort} LIMIT ? OFFSET ?`,
+        [limit, offset],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  getProductManage: (limit, offset, sort) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
         `SELECT products.id as id, categorys.name as category_name, categorys.id as category_id, products.name as name, products.image as image, products.price as price, products.created as created, products.updated, products.status FROM products INNER JOIN categorys on products.id_category = categorys.id ORDER BY ${sort} LIMIT ? OFFSET ?`,
         [limit, offset],
         (error, result) => {
@@ -87,6 +98,16 @@ module.exports = {
     });
   },
   getProductCount: () => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT COUNT(*) as total FROM products WHERE status=1",
+        (error, result) => {
+          !error ? resolve(result[0].total) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  getProductCountManage: () => {
     return new Promise((resolve, reject) => {
       connection.query(
         "SELECT COUNT(*) as total FROM products",

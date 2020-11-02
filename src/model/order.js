@@ -4,7 +4,7 @@ module.exports = {
   getOrder: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT historys.invoice as invoices, 'Dimas Prayoga' as cashier, historys.date as dates, GROUP_CONCAT(products.name) as names, historys.subtotal as subtotals from historys LEFT JOIN orders on orders.id_history = historys.id LEFT JOIN products on products.id = orders.id_product GROUP BY(invoices)",
+        `SELECT historys.invoice as invoices, 'Dimas Prayoga' as cashier, historys.date as dates, GROUP_CONCAT(' ',products.name, " (", orders.qty,"x)") as names, historys.subtotal as subtotals FROM historys LEFT JOIN orders on orders.id_history = historys.id LEFT JOIN products on products.id = orders.id_product GROUP BY(invoices) ORDER BY(dates)`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }
@@ -24,7 +24,7 @@ module.exports = {
   total_order: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT COUNT(*) as totals from orders",
+        "SELECT COUNT(*) as totals from historys",
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }
@@ -34,8 +34,7 @@ module.exports = {
   total_yearIncome: (this_year) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT SUM(subtotal) AS subtotals FROM historys WHERE YEAR(date) >= YEAR${
-          "('" + this_year + "')"
+        `SELECT SUM(subtotal) AS subtotals FROM historys WHERE YEAR(date) >= YEAR${"('" + this_year + "')"
         }`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -46,7 +45,7 @@ module.exports = {
   this_month: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT DATE(historys.date) AS dates, subtotal AS subtotals FROM historys WHERE MONTH(historys.date) = MONTH(NOW()) AND YEAR(historys.date) = YEAR(NOW()) GROUP BY DATE(historys.date)",
+        "SELECT DATE(historys.date) AS dates, SUM(subtotal) AS subtotals FROM historys WHERE MONTH(historys.date) = MONTH(NOW()) AND YEAR(historys.date) = YEAR(NOW()) GROUP BY DATE(historys.date)",
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }

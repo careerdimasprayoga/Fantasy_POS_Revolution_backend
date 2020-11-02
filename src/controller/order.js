@@ -93,7 +93,7 @@ module.exports = {
       return helper.response(
         response,
         201,
-        "Create Order Success",
+        "Checkout Success",
         resultHistory
       );
     } catch (error) {
